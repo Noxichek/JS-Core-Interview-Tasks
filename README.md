@@ -1,3 +1,1 @@
 # JS-Core-Interview-Tasks
-
-
