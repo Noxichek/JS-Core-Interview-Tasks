@@ -212,3 +212,205 @@ fn();
 ///
 
 
+"const a = 1;
+
+function foo() {
+   console.log(a);
+}
+
+function bar() {
+   const a = 2;
+   foo();
+}
+
+bar(); // ???"
+
+"function closure() {
+   return (function(){
+       var arr = [];
+       for(var i = 0; i < 10; i++){
+           arr.push(function(){
+               return i;
+           });
+       }
+       return arr;
+   })()
+} 
+
+closure()[3]() === 3 // ???"
+
+"for (var i = 0; i < 10; i++){
+ setTimeout(function(){
+   console.log(i);
+ }, 1000);
+}
+"
+
+"var a = 1;
+
+function b() {
+    a = 10;
+    return;
+    function a() {}
+}
+b();
+
+console.log(a); // что выведет и почему"
+
+"function varTest() { 
+    for (var i = 0; i < 3; i++) { 
+        console.log(i); 
+    } 
+
+    console.log(i); 
+} 
+
+varTest();"
+
+Контекст
+
+"var a = {
+       b: 5,
+       getB: function() {
+           return this.b;
+       }
+   };
+console.log(a.getB())   //???
+var fn = a.getB;
+console.log(fn())          // ???
+"
+
+"var obj = {
+    a: function(){
+        console.log(this.prop);
+    },
+    prop: 1
+};
+ 
+obj.a.prop = 2; 
+obj.a();               //?
+var fn = obj.a;  
+fn();                   //?
+"
+
+
+Прототипы
+
+"vаr a = { b: 1 },
+c = Object.create(а);
+  
+console.log(c.b); //?
+delete с.b;
+сonsole.log(c.b); //?
+delete a.b;
+сonsole.log(с.b); //?"
+
+"var a = {aa: 5};
+var b = Object.create(a);
+delete b.aa;   
+console.log(b.aa); // ???
+delete a.aa;
+console.log(b.aa); // ???
+"
+
+"var obj = {
+    a: 5,
+    b: {
+        c: 10
+    }
+};
+
+obj.proto = {
+    a: 10,
+    b: {
+        c: 20
+    }
+};
+
+delete obj.a;
+console.log(obj.a);   // ???
+
+delete obj.a;
+console.log(obj.a);   // ???
+
+delete obj.b;
+console.log(obj.b.c); // ???
+
+delete obj.b.c;
+console.log(obj.b.c); // ???
+"
+
+
+Объекты
+
+"var a = {};
+function clear(a) {
+  a.b = 2;
+  a = null;
+}
+clear(a);
+
+console.log(a);     //?
+console.log(a.b);  //?"
+
+"var arr = [1,2]
+var brr = arr;
+brr = [42,43]
+arr[0]              //?"
+"var arr = [1,2]
+var brr = arr;
+brr[0] = 42
+arr[0]               //?"
+
+"var a={};
+b={key:'b'};                  
+c={key:'c'};                
+a[b]=123;             
+a[c]=456;      
+          
+console.log(a[b]);         //???
+"
+
+
+Промисы
+
+"1) 
+p.then(()=>console.log(1))
+.catch(()=>console.log(2));
+
+2)   
+p.catch(()=>console.log(2))
+.then(()=>console.log(1));
+
+В чем разница и как будет работать при resolve и reject?
+"
+
+"doSomething().then(function () {
+   throw new Error();
+})
+.catch(() => {
+   return  Promise().reject();
+})
+.then(finalHandler);
+
+Объяснить порядок"
+
+"Promise.reject('a')               
+.catch(p => p + 'b')           
+.catch(p => p + 'с')
+.then(p => p + 'd')                
+.finally(p => p + 'e')               
+.then(p => console.log(p))    
+console.log('f');
+
+//Что выведет и в каком порядке?"
+
+
+Остальное
+"const a = '123';
+const b = true;
+b && a         // ??? и почему"
+
+"const a = '123';
+const b = false;
+b || a         // ??? и почему
